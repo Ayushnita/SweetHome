@@ -21,7 +21,7 @@ public class RoomSearchService {
 	
 	public String findRoomIds(int count) {
 		String out ="";
-		for(int i = currentRoomBook + 1; i < currentRoomBook + count; i++) {
+		for(int i = currentRoomBook + 1; i <= currentRoomBook + count; i++) {
 			out += i +", ";
 		}
 		

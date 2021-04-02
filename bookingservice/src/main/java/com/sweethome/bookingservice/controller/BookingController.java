@@ -31,8 +31,8 @@ public class BookingController {
 	
 	@PostMapping("/booking/payment/{bookingId}")
 	@ResponseStatus(code = HttpStatus.CREATED)
-	public BookingInformation doPayment(@PathVariable int BookingId, @RequestBody PaymentDetails paymentDetails) throws Exception {
-		return bookingService.doPayment(BookingId, paymentDetails);
+	public BookingInformation doPayment(@PathVariable int bookingId, @RequestBody PaymentDetails paymentDetails) throws Exception {
+		return bookingService.doPayment(bookingId, paymentDetails);
 	}
 	
 }
