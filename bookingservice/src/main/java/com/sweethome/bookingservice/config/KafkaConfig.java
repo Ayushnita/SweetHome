@@ -12,7 +12,8 @@ import org.springframework.kafka.core.ProducerFactory;
 
 import com.fasterxml.jackson.databind.JsonSerializer;
 import com.fasterxml.jackson.databind.ser.std.StringSerializer;
-import com.google.inject.spi.Message;
+import com.sweethome.bookingservice.model.Message;
+
 
 @Configuration
 public class KafkaConfig {
