@@ -1,33 +1,28 @@
-package com.sweethome.serchservice.model;
+package com.sweethome.serchservice.model.dto;
 
-import java.util.Date;
+import java.sql.Date;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 
 
 
 
 @Entity
 @Table(name = "booking_details")
-public class RoomBookingDetails {
+public class RoomBookingDto {
 
 	@Id
 	private int bookingId;
 	private String roomIds;
-	
-	@Temporal(TemporalType.DATE)
 	private Date fromDate;
-	@Temporal(TemporalType.DATE)
 	private Date toDate;
 	private String userName;
 	private int paymentId;
 	
 	
-	public RoomBookingDetails(int bookingId, String roomId, Date fromDate, Date toDate, String userName,
+	public RoomBookingDto(int bookingId, String roomId, Date fromDate, Date toDate, String userName,
 			String adharNumber, int paymentId) {
 		super();
 		this.bookingId = bookingId;
@@ -39,7 +34,7 @@ public class RoomBookingDetails {
 	}
 
 
-	public RoomBookingDetails() {
+	public RoomBookingDto() {
 		super();
 	}
 

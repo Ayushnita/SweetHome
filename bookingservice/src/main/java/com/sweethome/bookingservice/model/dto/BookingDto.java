@@ -1,24 +1,26 @@
-package com.sweethome.bookingservice.model;
+package com.sweethome.bookingservice.model.dto;
 
 import java.util.Date;
 
-public class BookingRequest {
+import com.sweethome.bookingservice.model.entity.BookingInfoEntity;
+
+public class BookingDto {
 
 	private String userId;
 	private int hotelId;
 	private Date fromDate;
 	private Date toDate;
 	private int roomCount;
-	private RoomType roomType;
+	private String roomType;
 	
 	
-	public BookingRequest() {
+	public BookingDto() {
 	}
 
 
 
-	public BookingRequest(String userId, int hotelId, Date fromDate, Date toDate, int roomCount, 
-								RoomType roomType) {
+	public BookingDto(String userId, int hotelId, Date fromDate, Date toDate, int roomCount, 
+								String roomType) {
 		this.userId = userId;
 		this.hotelId = hotelId;
 		this.fromDate = fromDate;
@@ -27,11 +29,11 @@ public class BookingRequest {
 		this.roomType = roomType;
 	}
 	
-	public RoomType getRoomType() {
+	public String getRoomType() {
 		return roomType;
 	}
 
-	public void setRoomType(RoomType roomType) {
+	public void setRoomType(String roomType) {
 		this.roomType = roomType;
 	}
 
@@ -75,7 +77,7 @@ public class BookingRequest {
 		this.toDate = toDate;
 	}
 
-	public BookingInformation getBookingInfo() {
-		return new BookingInformation(userId, hotelId, fromDate, toDate);
+	public BookingInfoEntity getBookingInfo() {
+		return new BookingInfoEntity(userId, hotelId, fromDate, toDate);
 	}
 }

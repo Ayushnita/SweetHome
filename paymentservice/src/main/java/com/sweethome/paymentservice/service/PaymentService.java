@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.sweethome.paymentservice.dao.PaymentDetailDao;
 import com.sweethome.paymentservice.model.PaymentDetails;
-import com.sweethome.paymentservice.model.PaymentDetailsEntity;
+import com.sweethome.paymentservice.model.entity.PaymentDetailsEntity;
 
 
 @Service

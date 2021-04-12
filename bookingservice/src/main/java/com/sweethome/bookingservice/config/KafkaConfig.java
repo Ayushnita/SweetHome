@@ -1,38 +1,35 @@
 package com.sweethome.bookingservice.config;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.Properties;
 
-import org.apache.kafka.clients.producer.ProducerConfig;
+import org.apache.kafka.clients.producer.KafkaProducer;
+import org.apache.kafka.clients.producer.Producer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.kafka.core.DefaultKafkaProducerFactory;
-import org.springframework.kafka.core.KafkaTemplate;
-import org.springframework.kafka.core.ProducerFactory;
-
-import com.fasterxml.jackson.databind.JsonSerializer;
-import com.fasterxml.jackson.databind.ser.std.StringSerializer;
-import com.sweethome.bookingservice.model.Message;
 
 
 @Configuration
 public class KafkaConfig {
 	
-	@Bean
-	public ProducerFactory<String, Message> kafkaProducerFActory(){
-		
-		Map<String, Object> config = new HashMap<>();
-		
-		config.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, "127.0.0.1:9092");
-		config.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
-		config.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, JsonSerializer.class);
-		return new DefaultKafkaProducerFactory<>(config );
-	}
-	
 	
 	@Bean
-	public KafkaTemplate<String, Message> kafkaTemplate(){
-		return new KafkaTemplate<>(kafkaProducerFActory());
+	public  Producer<String, String> setUpKafkaPropoerties() {
+		   Properties properties = new Properties();
+	        properties.put("bootstrap.servers", "ec2-user@ec2-54-90-101-165.compute-1.amazonaws.com:9092");
+	        properties.put("acks", "all");
+	        properties.put("retries", 0);
+	        properties.put("linger.ms", 0);
+	        properties.put("partitioner.class", "org.apache.kafka.clients.producer.internals.DefaultPartitioner");
+	        properties.put("key.serializer", "org.apache.kafka.common.serialization.StringSerializer");
+	        properties.put("value.serializer", "org.apache.kafka.common.serialization.StringSerializer");
+	        properties.put("request.timeout.ms", 30000);
+	        properties.put("timeout.ms", 30000);
+	        properties.put("max.in.flight.requests.per.connection", 5);
+	        properties.put("retry.backoff.ms", 5);
+
+	        //Instantiate Producer Object
+	        Producer<String, String> producer = new KafkaProducer<String, String>(properties);
+	        return producer;
 	}
 
 }

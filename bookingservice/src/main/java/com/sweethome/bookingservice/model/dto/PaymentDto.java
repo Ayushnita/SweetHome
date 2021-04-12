@@ -1,19 +1,19 @@
-package com.sweethome.bookingservice.model;
+package com.sweethome.bookingservice.model.dto;
 
 import java.util.Date;
 
-public class PaymentDetails {
+public class PaymentDto {
 	
-	private BookingMode bookingMode;
+	private String bookingMode;
 	private Date bookingDate;
 	private float amount;
 	private String upiId;
 	private String cardNumber;
 	
-	public BookingMode getBookingMode() {
+	public String getBookingMode() {
 		return bookingMode;
 	}
-	public void setBookingMode(BookingMode bookingMode) {
+	public void setBookingMode(String bookingMode) {
 		this.bookingMode = bookingMode;
 	}
 	public Date getBookingDate() {

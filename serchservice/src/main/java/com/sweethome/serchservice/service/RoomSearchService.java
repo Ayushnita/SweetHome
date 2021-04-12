@@ -4,7 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.sweethome.serchservice.dao.RoomBookingDetailDao;
-import com.sweethome.serchservice.model.RoomBookingDetails;
+import com.sweethome.serchservice.model.dto.RoomBookingDto;
 
 @Service
 public class RoomSearchService {
@@ -31,7 +31,7 @@ public class RoomSearchService {
 		
 	}
 	
-	public int saveBookingDetails(RoomBookingDetails bookingDetails) {
+	public int saveBookingDetails(RoomBookingDto bookingDetails) {
 		return this.roomBookingDetailDao.save(bookingDetails).getBookingId();
 	}
 	

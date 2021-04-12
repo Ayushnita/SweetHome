@@ -1,20 +1,20 @@
 package com.sweethome.paymentservice.model;
 
-import java.util.Date;
+import java.sql.Date;
 
 public class PaymentDetails {
 	
-	private BookingMode bookingMode;
+	private String bookingMode;
 	private Date bookingDate;
 	private int  bookingId;
 	private float amount;
 	private String upiId;
 	private String cardNumber;
 	
-	public BookingMode getBookingMode() {
+	public String getBookingMode() {
 		return bookingMode;
 	}
-	public void setBookingMode(BookingMode bookingMode) {
+	public void setBookingMode(String bookingMode) {
 		this.bookingMode = bookingMode;
 	}
 	public Date getBookingDate() {

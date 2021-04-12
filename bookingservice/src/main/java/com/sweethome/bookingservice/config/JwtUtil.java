@@ -8,7 +8,8 @@ import com.sweethome.bookingservice.model.JwtResposnse;
 public class JwtUtil {
 	
 
-	public static void validateToken(String autHeader) {
+	public static void validateToken(String autHeader) throws Exception {
+		
 		RestTemplate restTemplate = new RestTemplate();
 		String resourseServer = "http://localhost:8081/validate";
 		if(autHeader != null && autHeader.startsWith("Bearer ")) {
@@ -19,6 +20,7 @@ public class JwtUtil {
 				 restTemplate.postForObject(resourseServer, new JwtResposnse(jwtToken), User.class);
 			 }catch (Exception e) {
 				// TODO: handle exception
+				 throw new Exception();
 			}
 		
 	}

@@ -2,57 +2,62 @@ package com.sweethome.bookingservice.service;
 
 import java.util.Optional;
 
+import org.apache.kafka.clients.producer.Producer;
+import org.apache.kafka.clients.producer.ProducerRecord;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.kafka.core.KafkaTemplate;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 import com.sweethome.bookingservice.dao.BookiningDao;
-import com.sweethome.bookingservice.model.BookingInformation;
-import com.sweethome.bookingservice.model.BookingRequest;
-import com.sweethome.bookingservice.model.Message;
-import com.sweethome.bookingservice.model.PaymentDetails;
-import com.sweethome.bookingservice.model.PaymentRequest;
+import com.sweethome.bookingservice.model.dto.BookingDto;
+import com.sweethome.bookingservice.model.dto.PaymentDto;
+import com.sweethome.bookingservice.model.dto.PaymentRequestDto;
+import com.sweethome.bookingservice.model.entity.BookingInfoEntity;
 
 @Service
 public class BookingService {
 	
 	@Autowired
-	public BookingService(BookiningDao bookingDao, RestTemplate restTemplate, KafkaTemplate<String, Message> kafkaTemplate) {
+	public BookingService(BookiningDao bookingDao, RestTemplate restTemplate, Producer<String, String> producer) {
 		this.bookingDao = bookingDao;
 		this.restTemplate = restTemplate;
-		this.kafkaTemplate = kafkaTemplate;
+		this.producer = producer;
 		
 	}
 	
 	BookiningDao bookingDao;
 	RestTemplate restTemplate;
-	KafkaTemplate<String, Message> kafkaTemplate;
+	Producer<String, String> producer;
 	
-	public BookingInformation  bookingDetails(BookingRequest bookingRequest) {
-		String baseUrl = "http://search-service/search";
-		String url = baseUrl + "/" +bookingRequest.getRoomCount();
+	@Value("${url.searvice.search}")
+	private String searchServiceUrl;
+	@Value("${url.searvice.payment}")
+	private String paymentServiceUrl;
+	
+	public BookingInfoEntity  bookingDetails(BookingDto bookingRequest) {
+		
+		String url = searchServiceUrl + "/" +bookingRequest.getRoomCount();
 		String roomNumbers = restTemplate.getForObject(url, String.class);
-		BookingInformation bookingInfo = bookingRequest.getBookingInfo();
+		BookingInfoEntity bookingInfo = bookingRequest.getBookingInfo();
 		bookingInfo.setRoomNumbers(roomNumbers);
 		return bookingDao.save(bookingInfo);
 	}
 	
-	public BookingInformation doPayment(int bookingId, PaymentDetails paymentDetails) throws Exception {
+	public BookingInfoEntity doPayment(int bookingId, PaymentDto paymentDetails) throws Exception {
 		String trancationId;
 		// call payment service and get paymentID to save in booking.
 		
-		String paymentUrl = "http://payment-service/payment";
 		
-		Optional<BookingInformation> bookingInfoOptional = bookingDao.findById(bookingId);
+		Optional<BookingInfoEntity> bookingInfoOptional = bookingDao.findById(bookingId);
 		if(bookingInfoOptional.isPresent()) {
-			BookingInformation bookingInfo = bookingInfoOptional.get();
-			PaymentRequest paymentRequest = new PaymentRequest(bookingId, paymentDetails);
-			trancationId = restTemplate.postForObject(paymentUrl, paymentRequest, Integer.class).toString();
+			BookingInfoEntity bookingInfo = bookingInfoOptional.get();
+			PaymentRequestDto paymentRequest = new PaymentRequestDto(bookingId, paymentDetails);
+			trancationId = restTemplate.postForObject(paymentServiceUrl, paymentRequest, Integer.class).toString();
 			bookingInfo.setTrancationId(trancationId);
 			bookingDao.save(bookingInfo);
-			Message message = new Message(bookingInfo.getUserId(), bookingInfo.getTo(), bookingId);
-			kafkaTemplate.send("message", message);
+			String message = bookingInfo.getUserId()+", " +  bookingInfo.getTo()+", "+ bookingId;
+			producer.send(new ProducerRecord<String, String>("messagge","message", message));
 			return bookingInfo;
 		}else {
 			throw new Exception("No Booking Found for giving ID");

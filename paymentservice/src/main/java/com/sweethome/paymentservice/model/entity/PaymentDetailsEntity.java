@@ -1,14 +1,14 @@
-package com.sweethome.paymentservice.model;
+package com.sweethome.paymentservice.model.entity;
 
-import java.util.Date;
+import java.sql.Date;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
+
+import com.sweethome.paymentservice.model.PaymentDetails;
 
 
 @Entity
@@ -18,8 +18,7 @@ public class PaymentDetailsEntity {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int id;
-	private BookingMode bookingMode;
-	@Temporal(TemporalType.DATE)
+	private String bookingMode;
 	private Date bookingDate;
 	private int  bookingId;
 	private float amount;
@@ -43,10 +42,10 @@ public class PaymentDetailsEntity {
 	public void setId(int id) {
 		this.id = id;
 	}
-	public BookingMode getBookingMode() {
+	public String getBookingMode() {
 		return bookingMode;
 	}
-	public void setBookingMode(BookingMode bookingMode) {
+	public void setBookingMode(String bookingMode) {
 		this.bookingMode = bookingMode;
 	}
 	public Date getBookingDate() {

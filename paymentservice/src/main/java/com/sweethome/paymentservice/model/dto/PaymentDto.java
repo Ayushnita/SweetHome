@@ -1,14 +1,16 @@
-package com.sweethome.bookingservice.model;
+package com.sweethome.paymentservice.model.dto;
 
-public class PaymentRequest {
-	
+import com.sweethome.paymentservice.model.PaymentDetails;
+
+public class PaymentDto {
+
 	private int bookingId;
 	private PaymentDetails paymentDetails;
 	
-	public PaymentRequest() {
+	public PaymentDto() {
 	}
 	
-	public PaymentRequest(int bookingId, PaymentDetails paymentDetails) {
+	public PaymentDto(int bookingId, PaymentDetails paymentDetails) {
 		this.bookingId = bookingId;
 		this.paymentDetails = paymentDetails;
 	}
@@ -24,5 +26,6 @@ public class PaymentRequest {
 	public void setPaymentDetails(PaymentDetails paymentDetails) {
 		this.paymentDetails = paymentDetails;
 	}
-
+	
+	
 }

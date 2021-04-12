@@ -1,4 +1,4 @@
-package com.sweethome.bookingservice.model;
+package com.sweethome.bookingservice.model.entity;
 
 import java.util.Date;
 
@@ -18,7 +18,7 @@ import org.springframework.data.annotation.CreatedDate;
 
 @Table(name = "hotel_booking")
 @Entity
-public class BookingInformation {
+public class BookingInfoEntity {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -38,11 +38,11 @@ public class BookingInformation {
 	
 	
 	
-	public BookingInformation() {
+	public BookingInfoEntity() {
 	}
 
 
-	public BookingInformation(String userId, int hotelId, Date fromDate, Date to) {
+	public BookingInfoEntity(String userId, int hotelId, Date fromDate, Date to) {
 		this.userId = userId;
 		HotelId = hotelId;
 		this.fromDate = fromDate;
